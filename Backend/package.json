@@ -1,0 +1,30 @@
+{
+  "name": "backend2",
+  "version": "1.0.0",
+  "description": "index.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "postinstall": "npx prisma generate"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@mantine/core": "^7.17.3",
+    "@mantine/dates": "^7.17.3",
+    "@mantine/hooks": "^7.17.3",
+    "@prisma/client": "^6.1.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "express-oauth2-jwt-bearer": "^1.6.0",
+    "nodemon": "^3.1.9",
+    "prisma": "^6.1.0"
+  },
+  "proxy": "http://localhost:5174"
+}

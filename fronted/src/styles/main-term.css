@@ -1,0 +1,42 @@
+.main{
+    /* border: 2px solid black; */
+    height: auto;
+    position: relative;
+    /* background-color: #e6eecf; */
+    top: 100px;
+    align-items: center;
+    width: 88%;
+    margin: auto;
+    /* width: 50%; */
+    /* border: 3px solid green; */
+    padding: 40px;
+    border-radius: 20px;
+    /* word-spacing: 4px; */
+    font-size: large;
+    /* gap: 20px; */
+    margin-bottom: 120px;
+}
+
+.header-all{
+    font-weight: 700;
+}
+
+.span-spacing{
+    /* border: 2px solid black; */
+    margin: 22px;
+}
+
+.spacing-heading{
+    bottom: 15px;
+    top: 15px;
+    /* position: relative; */
+    font-size: 25px;
+    margin-bottom: 20px;
+    /* border: 2px solid black; */
+}
+.dis-spacing{
+    position: relative;
+    left: 50px;
+    /* display: inline-block; */
+    /* border: 2px solid black; */
+}

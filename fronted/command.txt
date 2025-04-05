@@ -1,0 +1,11 @@
+git hub Command
+
+git add .
+git commit -m "saved file"
+Git push 
+Git Pull
+
+
+npm run dev   //for run serrver
+npm i swiper   //scrolling the images in ui time
+npm i react icon
