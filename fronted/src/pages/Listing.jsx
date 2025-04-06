@@ -142,7 +142,13 @@ const Listing = () => {
               <div className="col-span-full text-center text-red-500">Error loading properties</div>
             ) : filteredProperties.length > 0 ? (
               filteredProperties.map((property) => (
-                <Item key={property._id} property={property} />
+                <Item 
+                  key={property.id || property._id} 
+                  property={{
+                    ...property,
+                    id: property.id || property._id // Ensure id is consistently available
+                  }} 
+                />
               ))
             ) : (
               <div className="col-span-full text-center">No properties found matching your criteria</div>

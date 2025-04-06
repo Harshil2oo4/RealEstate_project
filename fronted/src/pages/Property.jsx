@@ -104,13 +104,13 @@ const Property = () => {
   return (
     <section className="max-padd-container my-[90px]">
       <div className="pb-2 relative">
-        <div className="relative h-[27rem] w-full">
+        <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
           {allImages.length > 0 ? (
             <>
               <img
                 src={allImages[currentImageIndex]}
                 alt={data?.title}
-                className="rounded-xl h-full w-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover rounded-xl"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = 'https://via.placeholder.com/800x600?text=No+Image';

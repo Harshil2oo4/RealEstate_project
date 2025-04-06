@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import HeartBtn from './HeartBtn'
 import { MdOutlineBathtub, MdOutlineBed, MdOutlineGarage, MdNavigateNext, MdNavigateBefore } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,6 +8,12 @@ const Item = ({property}) => {
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     
+    useEffect(() => {
+        console.log("Property data:", property);
+        console.log("Images array:", property.images);
+        console.log("Single image:", property.image);
+    }, [property]);
+
     const handleClick = (e) => {
         // Prevent navigation if clicking on the heart button or navigation buttons
         if (e.target.closest('.heart-btn') || e.target.closest('.nav-btn')) {
@@ -16,7 +22,9 @@ const Item = ({property}) => {
         navigate(`/listing/${property.id}`);
     };
 
-    const images = property.images || [property.image].filter(Boolean);
+    // Use images array if available, otherwise fallback to single image
+    const images = property.images?.length ? property.images : [property.image].filter(Boolean);
+    console.log("Processed images array:", images);
 
     const nextImage = (e) => {
         e.stopPropagation();
@@ -33,31 +41,68 @@ const Item = ({property}) => {
             <div className="relative">
                 {images.length > 0 ? (
                     <>
-                        <img 
-                            src={images[currentImageIndex]} 
-                            alt={property.title} 
-                            className='w-full h-[280px] object-cover transition-transform duration-300 group-hover:scale-105'
-                        />
+                        <div className="relative w-full" style={{ paddingBottom: '75%' }}> {/* 4:3 aspect ratio */}
+                            <div className="absolute inset-0 overflow-hidden group">
+                                {/* Image with fade transition */}
+                                {images.map((img, index) => {
+                                    console.log(`Rendering image ${index}:`, img);
+                                    return (
+                                        <img 
+                                            key={index}
+                                            src={img} 
+                                            alt={`${property.title} - Image ${index + 1}`} 
+                                            className={`absolute top-0 left-0 w-full h-full object-cover transition-all duration-700 ${
+                                                index === currentImageIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
+                                            } group-hover:scale-110`}
+                                            onError={(e) => {
+                                                console.error(`Error loading image ${index}:`, e);
+                                                e.target.src = "https://placehold.co/600x400?text=Error+Loading+Image";
+                                            }}
+                                            onLoad={() => console.log(`Image ${index} loaded successfully`)}
+                                            loading="lazy"
+                                        />
+                                    );
+                                })}
+
+                                {/* Add overlay gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            </div>
+                        </div>
+                        
                         {images.length > 1 && (
                             <>
+                                {/* Navigation buttons */}
                                 <button 
                                     onClick={prevImage}
-                                    className="nav-btn absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 rounded-full p-2 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    className="nav-btn absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 rounded-full p-2 hover:bg-white opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md z-10"
                                 >
-                                    <MdNavigateBefore size={20} className="text-gray-700" />
+                                    <MdNavigateBefore size={24} className="text-gray-700" />
                                 </button>
                                 <button 
                                     onClick={nextImage}
-                                    className="nav-btn absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 rounded-full p-2 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    className="nav-btn absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 rounded-full p-2 hover:bg-white opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md z-10"
                                 >
-                                    <MdNavigateNext size={20} className="text-gray-700" />
+                                    <MdNavigateNext size={24} className="text-gray-700" />
                                 </button>
-                                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+
+                                {/* Image counter */}
+                                <div className="absolute bottom-3 right-3 bg-black/50 text-white px-2 py-1 rounded-md text-sm z-10">
+                                    {currentImageIndex + 1} / {images.length}
+                                </div>
+
+                                {/* Dots indicator */}
+                                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-10">
                                     {images.map((_, index) => (
-                                        <div 
+                                        <button 
                                             key={index}
-                                            className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
-                                                index === currentImageIndex ? 'bg-white w-3' : 'bg-white/60'
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setCurrentImageIndex(index);
+                                            }}
+                                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                                                index === currentImageIndex 
+                                                    ? 'w-4 bg-white' 
+                                                    : 'w-1.5 bg-white/60 hover:bg-white/80'
                                             }`}
                                         />
                                     ))}
@@ -71,7 +116,7 @@ const Item = ({property}) => {
                     </div>
                 )}
                 {/* like btn */}
-                <div className='absolute top-4 right-4 heart-btn'>
+                <div className='absolute top-4 right-4 heart-btn z-20'>
                     <HeartBtn id={property?.id} />
                 </div>
             </div>

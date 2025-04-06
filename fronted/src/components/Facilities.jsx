@@ -32,6 +32,7 @@ const Facilities = ({ propertyDetails, setPropertyDetails, nextStep }) => {
         city: propertyDetails.city || "",
         country: propertyDetails.country || "",
         image: propertyDetails.image || "https://placehold.co/600x400?text=No+Image",
+        images: propertyDetails.images || [propertyDetails.image].filter(Boolean),
         facilities: {
           bedrooms: facilities.bedrooms || 0,
           bathrooms: facilities.bathrooms || 0,
@@ -67,16 +68,19 @@ const Facilities = ({ propertyDetails, setPropertyDetails, nextStep }) => {
           label="Bedrooms"
           value={facilities.bedrooms}
           onChange={(value) => setFacilities({ ...facilities, bedrooms: value })}
+          min={0}
         />
         <NumberInput
           label="Bathrooms"
           value={facilities.bathrooms}
           onChange={(value) => setFacilities({ ...facilities, bathrooms: value })}
+          min={0}
         />
         <NumberInput
           label="Parking"
           value={facilities.parking}
           onChange={(value) => setFacilities({ ...facilities, parking: value })}
+          min={0}
         />
         
         <Group position="center" mt="xl">

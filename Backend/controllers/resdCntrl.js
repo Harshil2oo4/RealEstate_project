@@ -62,7 +62,7 @@ export const createResidency = asyncHandler(async (req, res) => {
         country,
         city,
         facilities,
-        image,
+        images,
         userEmail,
     } = req.body;
 
@@ -76,7 +76,7 @@ export const createResidency = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "User with the provided email does not exist." });
         }
 
-        // Create residency
+        // Create residency with multiple images
         const residency = await prisma.residency.create({
             data: {
                 title,
@@ -86,7 +86,8 @@ export const createResidency = asyncHandler(async (req, res) => {
                 country,
                 city,
                 facilities,
-                image: image || "",
+                image: images?.[0] || "", // Set first image as main image
+                images: images || [], // Store all images
                 owner: { connect: { email: userEmail } },
             },
         });
@@ -100,9 +101,6 @@ export const createResidency = asyncHandler(async (req, res) => {
     }
 });
 
-
-
-
 export const getAllResidencies = asyncHandler(async (req, res) => {
     try {
         const residencies = await prisma.residency.findMany({
@@ -115,8 +113,6 @@ export const getAllResidencies = asyncHandler(async (req, res) => {
         res.status(500).json({ message: "Failed to fetch residencies", error: error.message });
     }
 });
-
-
 
 //get a residency by id
 
@@ -215,7 +211,8 @@ export const updateResidency = asyncHandler(async (req, res) => {
                 address: updateData.address,
                 city: updateData.city,
                 country: updateData.country,
-                image: updateData.image
+                image: updateData.images?.[0] || updateData.image || "",
+                images: updateData.images || []
             }
         });
 
