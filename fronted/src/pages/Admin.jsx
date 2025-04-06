@@ -203,15 +203,13 @@ const Admin = () => {
         totalUsers: new Set(properties.filter(p => p.id !== id).map(p => p.userEmail)).size
       }));
 
-      // Update React Query cache
-      queryClient.setQueryData('allProperties', (oldData) => {
-        return oldData ? oldData.filter(property => property.id !== id) : [];
-      });
+      // Invalidate the properties query to trigger a refetch
+      await queryClient.invalidateQueries('properties');
 
-      alert('Property deleted successfully');
+      toast.success('Property deleted successfully');
     } catch (error) {
       console.error('Error deleting property:', error);
-      alert('Failed to delete property. Please try again.');
+      toast.error('Failed to delete property. Please try again.');
     }
   };
 
