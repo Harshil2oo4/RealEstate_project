@@ -63,7 +63,6 @@ export const createResidency = asyncHandler(async (req, res) => {
         city,
         facilities,
         image,
-        images,
         userEmail,
     } = req.body;
 
@@ -77,7 +76,7 @@ export const createResidency = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "User with the provided email does not exist." });
         }
 
-        // Create residency with images array
+        // Create residency
         const residency = await prisma.residency.create({
             data: {
                 title,
@@ -87,8 +86,7 @@ export const createResidency = asyncHandler(async (req, res) => {
                 country,
                 city,
                 facilities,
-                image: image || "", // Keep for backward compatibility
-                images: images || [image].filter(Boolean), // Convert single image to array or use provided images array
+                image: image || "",
                 owner: { connect: { email: userEmail } },
             },
         });

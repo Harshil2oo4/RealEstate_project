@@ -429,8 +429,6 @@ export const FOOTER_LINKS = [
     title: "Learn More",
     links: [
       "About Us",
-      "Latest Items",
-      "Hot Offers",
       "Popular Residencies",
       "FAQ",
       "Privacy Policy",
@@ -438,7 +436,7 @@ export const FOOTER_LINKS = [
   },
   {
     title: "Our Community",
-    links: ["Terms and Conditions", "Special Offers", "Customer Reviews"],
+    links: ["Special Offers", "Customer Reviews"],
   },
 ];
 
